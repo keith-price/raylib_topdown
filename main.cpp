@@ -1,7 +1,6 @@
 #include "raylib.h"
 #include "raymath.h"
 
-
 // TODO: create separate script for player (player.cpp and player.h)
 // TODO: make player rotate towards mouse cursor
 // TODO: replace mouse cursor wirth crosshair and capture mouse
@@ -11,7 +10,7 @@ int main(void)
 {
     const int windowWidth{1920};
     const int windowHeight{1080};
-    
+
     InitWindow(windowWidth, windowHeight, "Top Down");
 
     // create player struct
@@ -22,16 +21,19 @@ int main(void)
         Vector2 movement;
         float speed;
     } Player;
-    
-    
+
     // load player textures
     Player.texture = LoadTexture("assets/images/survivor1_machine.png");
 
     // set initial position for player to be drawn
     Player.pos = {200, 200};
-    
+
     // set movement speed
     Player.speed = 550.0f;
+
+    // load crosshair texture
+    HideCursor();
+    Texture2D crosshair = LoadTexture("assets/images/crosshair085.png");
 
     SetTargetFPS(60);
 
@@ -39,17 +41,14 @@ int main(void)
     {
         // get delta time
         float dT = GetFrameTime();
-        
+
         BeginDrawing();
-        
+
         ClearBackground(DARKGRAY);
-        
-        // draw player
-        DrawTexture(Player.texture, Player.pos.x, Player.pos.y, WHITE);
-        
+
         // movement vector is here so it can be normalized, cancelling out faster speed on the diagonal
         Player.movement = {0.f, 0.f};
-        
+
         if (IsKeyDown(KEY_D))
         {
             Player.movement.x += Player.speed * dT;
@@ -72,18 +71,28 @@ int main(void)
         {
             Player.movement = Vector2Normalize(Player.movement);
         }
-        
+
         // move the player with normalized vector
         Player.pos.x += Player.speed * Player.movement.x * dT;
         Player.pos.y += Player.speed * Player.movement.y * dT;
+
         
+        //get mouse position to draw crosshair at correct location
+        Vector2 mousePos = GetMousePosition();
+        // draw crossshair
+        DrawTextureEx(crosshair, mousePos, 0, 1, WHITE);
+
+        // draw player
+        DrawTextureEx(Player.texture, Player.pos, 0, 1.5, WHITE);
+
         EndDrawing();
     }
-    
+
+
     UnloadTexture(Player.texture);
-    
+    UnloadTexture(crosshair);
+
     CloseWindow();
-    
+
     return 0;
 }
-
