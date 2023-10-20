@@ -1,9 +1,5 @@
 #include "raylib.h"
-#include "player.h"
-
-// TODO: make player rotate towards mouse cursor
-// TODO: offset player position so that rotation is around center of texture and not at {0, 0} origin
-// TODO: lerp and slerp for movement and rotation (currently accel abd decel are instant)
+#include "Player.h"
 
 int main(void)
 {
@@ -12,8 +8,8 @@ int main(void)
 
     InitWindow(windowWidth, windowHeight, "Top Down");
 
+    // create player instance
     Player player;
-    InitPlayer(player);
 
     // load crosshair texture and hide mouse cursor
     HideCursor();
@@ -30,21 +26,21 @@ int main(void)
 
         ClearBackground(DARKGRAY);
 
-        UpdatePlayer(player, dT);
+        player.UpdatePlayer(player, dT);
 
         // get mouse position to draw crosshair at correct location
         Vector2 mousePos = GetMousePosition();
 
         // draw player -- rotation not working
-        DrawPlayer(player, RotateToMouse(player, mousePos));
+        player.DrawPlayer(player, player.RotateToMouse(player, mousePos));
 
         // draw crossshair
         DrawTextureEx(crosshair, mousePos, 0, 1, WHITE);
 
         EndDrawing();
     }
-
-    UnloadTexture(player.texture);
+    // how to unload the player texture here
+    // UnloadTexture(player.texture);
     UnloadTexture(crosshair);
 
     CloseWindow();

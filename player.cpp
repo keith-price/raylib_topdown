@@ -1,39 +1,37 @@
-#include "player.h"
+#include "Player.h"
 #include "raymath.h"
 
-void InitPlayer(Player &player)
+// add in friction and acceleration for player plus maxSpeed so player movement is more natural
+
+Player::Player()
 {
     // load player textures
-    player.texture = LoadTexture("assets/images/survivor1_machine.png");
+    texture = LoadTexture("assets/images/survivor1_machine.png");
 
     // set start position for player to be drawn
-    player.pos = {200.f, 200.f};
+    pos = {200.f, 200.f};
 
-    // set movement speed
-    player.speed = 550.f;
+    // set movement maxSpeedpeed
+    maxSpeed = 550.f;
+
+    friction = 0.01f;
+
+    acceleration = 0.01f;
 }
 
-void UpdatePlayer(Player &player, float dT)
+void Player::UpdatePlayer(Player &player, float dT)
 {
-    // movement vector is here so it can be normalized, cancelling out faster speed on the diagonal
+    // movement vector is here so it can be normalized, cancelling out faster maxSpeedon the diagonal
     player.movement = {0.f, 0.f};
 
     if (IsKeyDown(KEY_D))
-    {
-        player.movement.x = player.movement.x + 1.f;
-    }
+        player.movement.x += 1.f;
     if (IsKeyDown(KEY_A))
-    {
-        player.movement.x = player.movement.x - 1.f;
-    }
+        player.movement.x -= 1.f;
     if (IsKeyDown(KEY_W))
-    {
-        player.movement.y = player.movement.y - 1.f;
-    }
+        player.movement.y -= 1.f;
     if (IsKeyDown(KEY_S))
-    {
-        player.movement.y = player.movement.y + 1.f;
-    }
+        player.movement.y += 1.f;
 
     // check if both x and y are being set at same time (diagonal movement) -- if so normalize it
     if (Vector2Length(player.movement) > 0)
@@ -42,11 +40,11 @@ void UpdatePlayer(Player &player, float dT)
     }
 
     // move the player with normalized vector
-    player.pos.x += player.speed * player.movement.x * dT;
-    player.pos.y += player.speed * player.movement.y * dT;
+    player.pos.x += player.maxSpeed * player.movement.x * dT;
+    player.pos.y += player.maxSpeed * player.movement.y * dT;
 }
 
-void DrawPlayer(Player &player, float rotation)
+void Player::DrawPlayer(Player &player, float rotation)
 {
     // load player textures
     player.texture = LoadTexture("assets/images/survivor1_machine.png");
@@ -60,7 +58,7 @@ void DrawPlayer(Player &player, float rotation)
                    offset, rotation, WHITE);
 }
 
-float RotateToMouse(Player &player, Vector2 mousePos)
+float Player::RotateToMouse(Player &player, Vector2 mousePos)
 {
     // deal with player rotation towards mouse
     Vector2 directionToMouse = Vector2Subtract(mousePos, player.pos);
@@ -73,3 +71,5 @@ float RotateToMouse(Player &player, Vector2 mousePos)
 
     return angleToMouseDegrees;
 }
+
+
