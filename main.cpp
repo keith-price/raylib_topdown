@@ -1,9 +1,6 @@
 #include "raylib.h"
-#include "raymath.h"
-
 #include "player.h"
 
-// TODO: create separate script for player (player.cpp and player.h)
 // TODO: make player rotate towards mouse cursor
 // TODO: offset player position so that rotation is around center of texture and not at {0, 0} origin
 // TODO: lerp and slerp for movement and rotation (currently accel abd decel are instant)

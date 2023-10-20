@@ -21,19 +21,19 @@ void UpdatePlayer(Player &player, float dT)
 
     if (IsKeyDown(KEY_D))
     {
-        player.movement.x += player.speed * dT;
+       player.movement.x = player.movement.x + 1.f;
     }
     if (IsKeyDown(KEY_A))
     {
-        player.movement.x -= player.speed * dT;
+        player.movement.x = player.movement.x - 1.f;
     }
     if (IsKeyDown(KEY_W))
     {
-        player.movement.y -= player.speed * dT;
+        player.movement.y = player.movement.y - 1.f;
     }
     if (IsKeyDown(KEY_S))
     {
-        player.movement.y += player.speed * dT;
+        player.movement.y = player.movement.y + 1.f;
     }
 
     // check if both x and y are being set at same time (diagonal movement) -- if so normalize it
