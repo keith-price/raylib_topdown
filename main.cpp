@@ -1,5 +1,7 @@
 #include "raylib.h"
+#include "raymath.h"
 #include "player.h"
+
 
 // TODO: make player rotate towards mouse cursor
 // TODO: offset player position so that rotation is around center of texture and not at {0, 0} origin
@@ -35,14 +37,15 @@ int main(void)
         // get mouse position to draw crosshair at correct location
         Vector2 mousePos = GetMousePosition();
 
-        // draw player
-        DrawPlayer(player);
+        // draw player -- rotation not working
+        DrawPlayer(player, RotateToMouse(player, mousePos));
 
         // draw crossshair
         DrawTextureEx(crosshair, mousePos, 0, 1, WHITE);
 
         EndDrawing();
     }
+    
     UnloadTexture(player.texture);
     UnloadTexture(crosshair);
 

@@ -1,6 +1,6 @@
 #include "player.h"
-
 #include "raymath.h"
+
 
 void InitPlayer(Player &player)
 {
@@ -21,7 +21,7 @@ void UpdatePlayer(Player &player, float dT)
 
     if (IsKeyDown(KEY_D))
     {
-       player.movement.x = player.movement.x + 1.f;
+        player.movement.x = player.movement.x + 1.f;
     }
     if (IsKeyDown(KEY_A))
     {
@@ -46,11 +46,29 @@ void UpdatePlayer(Player &player, float dT)
     player.pos.x += player.speed * player.movement.x * dT;
     player.pos.y += player.speed * player.movement.y * dT;
 }
-void DrawPlayer(Player &player)
+
+void DrawPlayer(Player &player, float rotation)
 {
     // load player textures
     player.texture = LoadTexture("assets/images/survivor1_machine.png");
 
-    // draw player
-    DrawTextureEx(player.texture, player.pos, 0, 1.5, WHITE);
+    // Calculate the offset for the player's texture
+    Vector2 offset = (Vector2){player.texture.width * 0.5f, player.texture.height * 0.5f};
+
+    // Draw the player with the correct rotation and offset
+    DrawTexturePro(player.texture, (Rectangle){0, 0, (float)player.texture.width, (float)player.texture.height},
+                   (Rectangle){player.pos.x + offset.x, player.pos.y + offset.y, (float)player.texture.width, (float)player.texture.height},
+                   offset, rotation, WHITE);
+}
+
+float RotateToMouse(Player &player, Vector2 mousePos)
+{
+    // deal with player rotation towards mouse
+    Vector2 directionToMouse = Vector2Subtract(mousePos, player.pos);
+
+    float angleToMouseRadians = atan2(directionToMouse.y, directionToMouse.x);
+
+    float angleToMouseDegrees = angleToMouseRadians * RAD2DEG;
+
+    return angleToMouseDegrees;
 }
