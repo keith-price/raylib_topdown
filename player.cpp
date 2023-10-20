@@ -1,7 +1,6 @@
 #include "player.h"
 #include "raymath.h"
 
-
 void InitPlayer(Player &player)
 {
     // load player textures
@@ -66,8 +65,10 @@ float RotateToMouse(Player &player, Vector2 mousePos)
     // deal with player rotation towards mouse
     Vector2 directionToMouse = Vector2Subtract(mousePos, player.pos);
 
+    // atan2 gives angle in radian - need to convert to degrees
     float angleToMouseRadians = atan2(directionToMouse.y, directionToMouse.x);
 
+    // convert radians to degrees
     float angleToMouseDegrees = angleToMouseRadians * RAD2DEG;
 
     return angleToMouseDegrees;

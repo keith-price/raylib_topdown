@@ -1,7 +1,5 @@
 #include "raylib.h"
-#include "raymath.h"
 #include "player.h"
-
 
 // TODO: make player rotate towards mouse cursor
 // TODO: offset player position so that rotation is around center of texture and not at {0, 0} origin
@@ -45,7 +43,7 @@ int main(void)
 
         EndDrawing();
     }
-    
+
     UnloadTexture(player.texture);
     UnloadTexture(crosshair);
 
